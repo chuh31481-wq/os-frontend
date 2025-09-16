@@ -6,7 +6,7 @@ exports.handler = async function(event, context) {
     // 2. Zaroori GitHub details set karna
     const GITHUB_TOKEN = process.env.GITHUB_PAT; // Token ko secure tareeqe se haasil karna
     const REPO_OWNER = "johnmichael16725-ship-it"; // YAHAN APNA GITHUB USERNAME LIKHEIN
-    const REPO_NAME = "invoice-generator-service"; // Hamari backend repo ka naam
+    const REPO_NAME = "-i-generator-service"; // Hamari backend repo ka naam
     const GITHUB_API_URL = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/dispatches`;
 
     // 3. GitHub Actions ko trigger karne ke liye API call bhejna
