@@ -7,8 +7,8 @@ exports.handler = async function(event, context) {
     const GITHUB_TOKEN = process.env.GITHUB_PAT; // Token ko Netlify se secure tareeqe se haasil karna
 
     // --- YAHAN SAHI DETAILS DAALEIN ---
-    const REPO_OWNER = "johnmichael16725-ship-it"; // Backend repo ka owner
-    const REPO_NAME = "-i-generator-service";      // Backend repo ka naam
+    const REPO_OWNER = "chuh31481-wq"; // Backend repo ka owner
+    const REPO_NAME = "invoice-generator";      // Backend repo ka naam
 
     const GITHUB_API_URL = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/dispatches`;
 
