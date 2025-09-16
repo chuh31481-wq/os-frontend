@@ -3,11 +3,13 @@ exports.handler = async function(event, context) {
     // 1. Frontend se bheje gaye data ko haasil karna
     const invoiceData = JSON.parse(event.body);
 
-    // 2. Zaroori GitHub details set karna
-    const GITHUB_TOKEN = process.env.GITHUB_PAT; // Token ko secure tareeqe se haasil karna
-    const REPO_OWNER = "johnmichael16725-ship-it"; // YAHAN APNA GITHUB USERNAME LIKHEIN
-    const REPO_NAME = "-i-generator-service"; // Hamari backend repo ka naam
-    const GITHUB_API_URL = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/dispatches`;
+ // 2. Zaroori GitHub details set karna
+ const GITHUB_TOKEN = process.env.GITHUB_PAT; // Token ko secure tareeqe se haasil karna
+// Is line ko apne naye username se update karein
+const REPO_OWNER = "johnmichael16725-ship-it"; 
+// Is line ko apni nayi repository ke naam se update karein
+const REPO_NAME = "-i-generator-service";
+const GITHUB_API_URL = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/dispatches`;
 
     // 3. GitHub Actions ko trigger karne ke liye API call bhejna
     try {
