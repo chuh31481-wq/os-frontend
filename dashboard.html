@@ -18,8 +18,8 @@
     <div class="container">
         <div class="sidebar">
             <ul>
-                <li class="active"><a href="#">Dashboard</a></li>
-                <li><a href="#">Invoicing</a></li>
+                <li class="active"><a href="dashboard.html">Dashboard</a></li>
+                <li><a href="invoicing.html">Invoicing</a></li>
                 <li><a href="#">Leads (FMCSA)</a></li>
                 <li><a href="#">Settings</a></li>
             </ul>
@@ -28,18 +28,19 @@
         <div class="main-content">
             <h1>Main Dashboard</h1>
             <p>This is where your main content, like alerts and summaries, will go.</p>
-            
+                
+            <!-- YEH NAYA SECTION HAI -->
             <div class="card">
-                <h3>Quick Stats</h3>
-                <p>Invoices Sent: 12</p>
-                <p>New Leads Today: 5</p>
+                <h3>Recently Generated Invoices</h3>
+                <ul id="invoice-list">
+                    <li>Loading invoices...</li>
+                </ul>
             </div>
 
         </div>
     </div>
 
-    <!-- Hum is page ke liye alag JavaScript file baad mein banayenge -->
-    <!-- <script src="dashboard.js"></script> -->
+    <!-- NAYI JAVASCRIPT FILE KO LINK KARNA -->
+    <script src="dashboard.js"></script>
 </body>
 </html>
-
