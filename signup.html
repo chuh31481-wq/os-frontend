@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign Up - Dispatch OS</title>
-    <!-- Hum login wala CSS hi istemal karenge -->
+    <!-- Hum login wala CSS hi istemal karenge taake design same rahe -->
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -17,15 +17,22 @@
         </div>
         <div class="form-group">
             <label for="password">Password</label>
-            <input type="password" id="password" placeholder="Create a strong password">
+            <input type="password" id="password" placeholder="Create a strong password (min. 6 characters)">
         </div>
         <button id="signupButton">Sign Up</button>
         <p class="signup-link">Already have an account? <a href="index.html">Log In</a></p>
     </div>
-        
+    
+    <!-- 
+      JavaScript files ko yahan link kiya gaya hai.
+      Order bohat zaroori hai:
+      1. Pehle Supabase ki library.
+      2. Phir hamara Supabase client (jo URL/Key set karta hai).
+      3. Aakhir mein hamara page ka logic (signup.js).
+    -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="supabase-client.js"></script>
     <script src="signup.js"></script>
-        
+    
 </body>
 </html>
