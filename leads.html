@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FMCSA Leads - Dispatch OS</title>
+    <!-- Hum dashboard wala CSS hi istemal kar rahe hain -->
+    <link rel="stylesheet" href="dashboard.css">
+</head>
+<body>
+    <div class="navbar">
+        <div class="logo">Dispatch OS</div>
+        <div class="user-menu">
+            <span>Welcome, User!</span>
+            <button id="logoutButton">Logout</button>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="sidebar">
+            <ul>
+                <li><a href="dashboard.html">Dashboard</a></li>
+                <li><a href="invoicing.html">Invoicing</a></li>
+                <li class="active"><a href="leads.html">Leads (FMCSA)</a></li>
+                <li><a href="#">Settings</a></li>
+            </ul>
+        </div>
+
+        <div class="main-content">
+            <h1>FMCSA Scrape Results</h1>
+            <div class="card">
+                <h3>Generated Lead Files (CSV)</h3>
+                <p>Click on a file to download the extracted leads. The list will refresh automatically.</p>
+                <ul id="leads-list">
+                    <li>Loading lead files...</li>
+                </ul>
+                <button onclick="fetchFmcsaLeads()">Refresh List Manually</button>
+            </div>
+        </div>
+    </div>
+        
+    <!-- Is page ki JavaScript file ko yahan link kiya gaya hai -->
+    <script src="fmcsa-leads.js"></script>
+    <script>
+        // Page load hone par foran leads fetch karein
+        document.addEventListener('DOMContentLoaded', fetchFmcsaLeads);
+    </script>
+</body>
+</html>
