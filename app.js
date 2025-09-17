@@ -1,4 +1,4 @@
-// Yeh line code ko tab chalayegi jab poora HTML page load ho jayega
+// Yeh code tab chalega jab poora HTML page load ho jayega
 document.addEventListener('DOMContentLoaded', function() {
 
     // 1. HTML se zaroori cheezon ko pakarna
@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const passwordInput = document.getElementById('password');
 
     // 2. Login button par "click" ka jasoos (event listener) lagana
-    loginButton.addEventListener('click', function() {
+    loginButton.addEventListener('click', async function() {
         
         // 3. Button dabane par, form se values haasil karna
         const email = emailInput.value;
@@ -19,17 +19,29 @@ document.addEventListener('DOMContentLoaded', function() {
             return; // Function ko yahin rok do
         }
 
-        // --- YAHAN ASAL TABDEELI HAI ---
-        // Abhi ke liye, hum farz kar lete hain ke koi bhi email/password theek hai.
-        // Hum sirf test kar rahe hain.
-        
-        alert('Login Successful! Redirecting to dashboard...');
+        // --- YAHAN ASAL SUPABASE LOGIC HAI ---
+        try {
+            // Supabase ko login karne ke liye kehna
+            // 'supabase' object hamari supabase-client.js file se aa raha hai
+            const { data, error } = await supabase.auth.signInWithPassword({
+                email: email,
+                password: password,
+            });
 
-        // User ko dashboard.html page par bhej do
-        window.location.href = 'dashboard.html';
+            if (error) {
+                // Agar Supabase se koi error aaye (jaise ghalat password)
+                throw error;
+            }
 
-        // Asal login ka logic (GitHub API call) hum baad mein yahan daalenge.
-        
+            // Agar login kamyab ho jaye
+            alert('Login Successful! Redirecting to dashboard...');
+            // User ko dashboard.html page par bhej do
+            window.location.href = 'dashboard.html';
+
+        } catch (error) {
+            // Error ko user ko dikhana
+            console.error('Error logging in:', error.message);
+            alert(`Login Failed: ${error.message}`);
+        }
     });
-
 });
