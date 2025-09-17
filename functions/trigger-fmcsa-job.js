@@ -2,7 +2,7 @@ export async function onRequest(context) {
     const GITHUB_TOKEN = context.env.GITHUB_PAT;
 
     const REPO_OWNER = "chuh31481-wq";
-    const REPO_NAME = "fmcsa-result";
+    const REPO_NAME = "fmcsa-result-";
 
     const GITHUB_API_URL = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/dispatches`;
 
