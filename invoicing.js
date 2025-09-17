@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // 2. Middleman (Netlify Function) ko API call bhejna
         // Yeh function abhi humne banaya nahi hai, lekin hum call likh rahe hain.
         try {
-            const response = await fetch('/.netlify/functions/trigger-invoice-job', {
+            const response = await fetch('/trigger-invoice-job', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
