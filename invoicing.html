@@ -4,7 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Invoicing - Dispatch OS</title>
+    <!-- Hum dashboard wala CSS hi istemal karenge taake design same rahe -->
     <link rel="stylesheet" href="dashboard.css"> 
+    <!-- Is page ke liye khaas CSS -->
     <link rel="stylesheet" href="invoicing.css"> 
 </head>
 <body>
@@ -21,7 +23,6 @@
             <ul>
                 <li><a href="dashboard.html">Dashboard</a></li>
                 <li class="active"><a href="invoicing.html">Invoicing</a></li>
-                <!-- Link ko theek kar diya gaya hai -->
                 <li><a href="leads.html">Leads (FMCSA)</a></li>
                 <li><a href="#">Settings</a></li>
             </ul>
@@ -36,9 +37,19 @@
                         <label for="companyName">Your Company Name</label>
                         <input type="text" id="companyName" value="Your Dispatching Service">
                     </div>
+                    <!-- YEH FIELD MISSING THI -->
+                    <div class="form-group">
+                        <label for="companyAddress">Your Company Address</label>
+                        <input type="text" id="companyAddress" value="123 Main St, Your City">
+                    </div>
                     <div class="form-group">
                         <label for="clientName">Broker/Client Name</label>
                         <input type="text" id="clientName" placeholder="e.g., TQL Logistics">
+                    </div>
+                    <!-- YEH FIELD BHI MISSING THI -->
+                    <div class="form-group">
+                        <label for="clientAddress">Broker/Client Address</label>
+                        <input type="text" id="clientAddress" placeholder="e.g., 456 Broker Ave, Cincinnati, OH">
                     </div>
                     <div class="form-group">
                         <label for="invoiceNumber">Invoice Number</label>
@@ -66,6 +77,9 @@
         </div>
     </div>
     
+    <!-- YEH 3 LINES ZAROORI HAIN -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabase-client.js"></script>
     <script src="invoicing.js"></script>
     
 </body>
