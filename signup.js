@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const passwordInput = document.getElementById('password');
 
     signupButton.addEventListener('click', async function() {
+        // YEH LINE CHECK KAREIN: Hum form se email utha rahe hain.
         const email = emailInput.value;
         const password = passwordInput.value;
 
@@ -17,7 +18,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         try {
-            // Supabase mein naya user banane ka function
+            // YEH LINE CHECK KAREIN: Hum 'email' variable ko istemal kar rahe hain.
             const { data, error } = await supabase.auth.signUp({
                 email: email,
                 password: password,
@@ -27,9 +28,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 throw error;
             }
 
-            // Kamyabi par user ko batana
             alert('Success! Please check your email to verify your account.');
-            // User ko login page par bhej dena
             window.location.href = 'index.html';
 
         } catch (error) {
