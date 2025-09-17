@@ -20,7 +20,8 @@
             <ul>
                 <li class="active"><a href="dashboard.html">Dashboard</a></li>
                 <li><a href="invoicing.html">Invoicing</a></li>
-                <li><a href="#">Leads (FMCSA)</a></li>
+                <!-- Link ko theek kar diya gaya hai -->
+                <li><a href="leads.html">Leads (FMCSA)</a></li>
                 <li><a href="#">Settings</a></li>
             </ul>
         </div>
@@ -28,8 +29,7 @@
         <div class="main-content">
             <h1>Main Dashboard</h1>
             <p>This is where your main content, like alerts and summaries, will go.</p>
-                
-            <!-- YEH NAYA SECTION HAI -->
+            
             <div class="card">
                 <h3>Recently Generated Invoices</h3>
                 <ul id="invoice-list">
@@ -37,10 +37,17 @@
                 </ul>
             </div>
 
+            <!-- YEH NAYA CARD ADD HUA HAI -->
+            <div class="card">
+                <h3>FMCSA Lead Generation</h3>
+                <p>Click the button below to start fetching new leads from the FMCSA database. This process runs in the background.</p>
+                <button id="fetchLeadsBtn">Fetch New FMCSA Leads</button>
+            </div>
+
         </div>
     </div>
-
-    <!-- NAYI JAVASCRIPT FILE KO LINK KARNA -->
+    
     <script src="dashboard.js"></script>
+    
 </body>
 </html>
