@@ -1,81 +1,89 @@
-// Yeh code tab chalega jab poora dashboard page load ho jayega
+// Yeh function tab chalega jab poora HTML page load ho jayega
 document.addEventListener('DOMContentLoaded', function() {
     
-    console.log("Dashboard script loaded. Fetching invoices...");
-    // Page load hone par foran invoices ki list fetch karein
-    fetchInvoices();
-
-    // Logout button ka logic
+    // --- NAYA LOGOUT LOGIC ---
     const logoutButton = document.getElementById('logoutButton');
-    if(logoutButton) {
-        logoutButton.addEventListener('click', function() {
-            alert("Logout functionality will be added later.");
-            // Yahan baad mein user ko login page par wapas bhejne ka code aayega
-            // window.location.href = 'index.html';
+
+    if (logoutButton) {
+        logoutButton.addEventListener('click', async function() {
+            // Supabase ko logout karne ke liye kehna
+            const { error } = await supabase.auth.signOut();
+
+            if (error) {
+                console.error('Error logging out:', error.message);
+                alert(`Logout Failed: ${error.message}`);
+            } else {
+                // Logout kamyab hone par, user ko login page par wapas bhej do
+                alert('You have been logged out.');
+                window.location.href = 'index.html';
+            }
         });
     }
+    // --- LOGOUT LOGIC KHATAM ---
 
-    // --- YAHAN NAYA LOGIC ADD HUA HAI ---
-    // "Fetch FMCSA Leads" button ka logic
-    const fetchLeadsBtn = document.getElementById('fetchLeadsBtn');
+
+    // --- PURANA CODE (Pehle se mojood) ---
+    // Dashboard par mojood "Fetch FMCSA Leads" button ka logic
+    const fetchLeadsBtn = document.getElementById('fetchFmcsaBtn');
     if (fetchLeadsBtn) {
         fetchLeadsBtn.addEventListener('click', async function() {
-            alert("Sending request to fetch FMCSA leads... This may take a few minutes.");
+            alert('Request sent to fetch FMCSA leads. This may take a few minutes.');
             try {
-                // Naye Cloudflare Function ko call karna
                 const response = await fetch('/trigger-fmcsa-job', { method: 'POST' });
                 const result = await response.json();
-                alert(result.message); // Kamyabi ya nakami ka message dikhana
+                if (!response.ok) throw new Error(result.message);
+                // Kamyabi ka alert yahan na dein, kyunke kaam background mein ho raha hai
             } catch (error) {
                 console.error("Error triggering FMCSA job:", error);
-                alert("Failed to send request. Check the console for details.");
+                alert(`Error: ${error.message}`);
             }
         });
     }
-});
 
-// Yeh function GitHub API se invoices ki list haasil karega
-async function fetchInvoices() {
-    // --- YAHAN APNI INVOICE REPO KI DETAILS UPDATE KAREIN ---
-    const REPO_OWNER = "chuh31481-wq";
-    const REPO_NAME = "invoice-generator"; // Aapki invoice wali repo ka naam
-    const FOLDER_PATH = "invoices";
+    // Dashboard par "Recently Generated Invoices" ki list laane ka logic
+    async function fetchRecentInvoices() {
+        const listElement = document.getElementById('invoice-list');
+        if (!listElement) return;
 
-    const API_URL = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${FOLDER_PATH}`;
+        listElement.innerHTML = '<li>Loading invoices...</li>';
 
-    const invoiceListElement = document.getElementById('invoice-list');
-    if (!invoiceListElement) {
-        console.error("Could not find the #invoice-list element on the page.");
-        return;
-    }
+        const REPO_OWNER = "chuh31481-wq";
+        const REPO_NAME = "invoice-generator";
+        const FOLDER_PATH = "invoices";
+        const API_URL = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${FOLDER_PATH}`;
 
-    try {
-        const response = await fetch(API_URL);
-        if (!response.ok) {
-            // Agar repo private ho ya naam ghalat ho to error aayega
+        try {
+            const response = await fetch(API_URL);
             if (response.status === 404) {
-                throw new Error(`Repository or folder not found. Check REPO_OWNER, REPO_NAME, and FOLDER_PATH.`);
+                listElement.innerHTML = "<li>The 'invoices' folder does not exist yet. Generate an invoice first.</li>";
+                return;
             }
-            throw new Error(`GitHub API responded with ${response.status}`);
-        }
-        const files = await response.json();
+            if (!response.ok) throw new Error('Failed to fetch from GitHub');
+            
+            const files = await response.json();
+            
+            if (files.length === 0) {
+                listElement.innerHTML = '<li>No invoices found.</li>';
+                return;
+            }
 
-        if (files.length === 0) {
-            invoiceListElement.innerHTML = '<li>No invoices found yet.</li>';
-            return;
-        }
-
-        invoiceListElement.innerHTML = ''; 
-        files.forEach(file => {
-            if (file.name.endsWith('.pdf')) {
+            listElement.innerHTML = ''; // List ko saaf karein
+            files.reverse().slice(0, 5).forEach(file => { // Sirf 5 sab se nayi files dikhayein
                 const listItem = document.createElement('li');
-                listItem.innerHTML = `<a href="${file.download_url}" target="_blank">${file.name}</a> (Size: ${Math.round(file.size / 1024)} KB)`;
-                invoiceListElement.appendChild(listItem);
-            }
-        });
+                const link = document.createElement('a');
+                link.href = file.html_url; // GitHub par file ka link
+                link.textContent = file.name;
+                link.target = "_blank"; // Naye tab mein kholein
+                listItem.appendChild(link);
+                listElement.appendChild(listItem);
+            });
 
-    } catch (error) {
-        console.error("Error fetching invoices:", error);
-        invoiceListElement.innerHTML = `<li>Error loading invoices: ${error.message}</li>`;
+        } catch (error) {
+            console.error('Error fetching invoices:', error);
+            listElement.innerHTML = `<li>Error loading invoices: ${error.message}</li>`;
+        }
     }
-}
+
+    // Page load hone par invoices ki list foran fetch karein
+    fetchRecentInvoices();
+});
