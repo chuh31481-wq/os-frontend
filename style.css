@@ -78,3 +78,29 @@ button:hover {
 .signup-link a:hover {
     text-decoration: underline;
 }
+
+/* Naye GitHub button ke liye styles */
+.github-btn {
+    background-color: #333;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px; /* Logo aur text ke darmiyan space */
+    font-weight: bold;
+}
+
+.github-btn:hover {
+    background-color: #555;
+}
+
+.github-btn img {
+    width: 20px;
+    height: 20px;
+}
+
+.footer-note {
+    font-size: 12px;
+    color: #888;
+    margin-top: 20px;
+}
