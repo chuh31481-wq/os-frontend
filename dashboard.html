@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard - Dispatch OS</title>
     <link rel="stylesheet" href="dashboard.css">
+    <!-- Purani Supabase aur auth-guard scripts yahan se hata di gayi hain -->
 </head>
 <body>
     <div class="navbar">
@@ -20,7 +21,6 @@
             <ul>
                 <li class="active"><a href="dashboard.html">Dashboard</a></li>
                 <li><a href="invoicing.html">Invoicing</a></li>
-                <!-- Link ko theek kar diya gaya hai -->
                 <li><a href="leads.html">Leads (FMCSA)</a></li>
                 <li><a href="#">Settings</a></li>
             </ul>
@@ -37,16 +37,15 @@
                 </ul>
             </div>
 
-            <!-- YEH NAYA CARD ADD HUA HAI -->
             <div class="card">
                 <h3>FMCSA Lead Generation</h3>
                 <p>Click the button below to start fetching new leads from the FMCSA database. This process runs in the background.</p>
                 <button id="fetchLeadsBtn">Fetch New FMCSA Leads</button>
             </div>
-
         </div>
     </div>
     
+    <!-- Sirf is page ki zaroori script yahan hai -->
     <script src="dashboard.js"></script>
     
 </body>
