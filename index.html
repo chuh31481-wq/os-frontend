@@ -3,24 +3,78 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Dispatch OS</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Invoicing - Dispatch OS</title>
+    <link rel="stylesheet" href="dashboard.css"> 
+    <link rel="stylesheet" href="invoicing.css"> 
+    <!-- Purani Supabase aur auth-guard scripts yahan se hata di gayi hain -->
 </head>
 <body>
-    <div class="login-container">
-        <h2>Welcome to Dispatch OS</h2>
-        <p>Please log in with your GitHub account to continue</p>
-        
-        <!-- Naya Login Button -->
-        <button id="loginButton" class="github-btn">
-            <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" alt="GitHub Logo">
-            <span>Login with GitHub</span>
-        </button>
-
-        <p class="footer-note">By logging in, you agree to our Terms of Service.</p>
+    <div class="navbar">
+        <div class="logo">Dispatch OS</div>
+        <div class="user-menu">
+            <span>Welcome, User!</span>
+            <button id="logoutButton">Logout</button>
+        </div>
     </div>
 
-    <!-- Is page ke dimaag (logic ) ko yahan link kiya gaya hai -->
-    <script src="app.js"></script>
+    <div class="container">
+        <div class="sidebar">
+            <ul>
+                <li><a href="dashboard.html">Dashboard</a></li>
+                <li class="active"><a href="invoicing.html">Invoicing</a></li>
+                <li><a href="leads.html">Leads (FMCSA)</a></li>
+                <li><a href="#">Settings</a></li>
+            </ul>
+        </div>
+
+        <div class="main-content">
+            <h1>Create New Invoice</h1>
+            
+            <div class="card">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="companyName">Your Company Name</label>
+                        <input type="text" id="companyName" value="Your Dispatching Service">
+                    </div>
+                    <div class="form-group">
+                        <label for="companyAddress">Your Company Address</label>
+                        <input type="text" id="companyAddress" value="123 Main St, Your City">
+                    </div>
+                    <div class="form-group">
+                        <label for="clientName">Broker/Client Name</label>
+                        <input type="text" id="clientName" placeholder="e.g., TQL Logistics">
+                    </div>
+                    <div class="form-group">
+                        <label for="clientAddress">Broker/Client Address</label>
+                        <input type="text" id="clientAddress" placeholder="e.g., 456 Broker Ave, Cincinnati, OH">
+                    </div>
+                    <div class="form-group">
+                        <label for="invoiceNumber">Invoice Number</label>
+                        <input type="text" id="invoiceNumber" placeholder="e.g., INV-2024-003">
+                    </div>
+                    <div class="form-group">
+                        <label for="invoiceDate">Invoice Date</label>
+                        <input type="date" id="invoiceDate">
+                    </div>
+                </div>
+                <hr>
+                <h3>Load Details</h3>
+                <div class="form-group">
+                    <label for="itemDescription">Description</label>
+                    <input type="text" id="itemDescription" placeholder="e.g., Freight dispatch for Load #56789">
+                </div>
+                <div class="form-group">
+                    <label for="itemAmount">Amount ($)</label>
+                    <input type="number" id="itemAmount" placeholder="e.g., 2500.00">
+                </div>
+                <hr>
+                <button id="generateInvoiceBtn">Generate Invoice</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Sirf is page ki zaroori script yahan hai -->
+    <script src="invoicing.js"></script>
+    
 </body>
 </html>
