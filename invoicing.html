@@ -4,10 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Invoicing - Dispatch OS</title>
-    <!-- Hum dashboard wala CSS hi istemal karenge taake design same rahe -->
     <link rel="stylesheet" href="dashboard.css"> 
-    <!-- Is page ke liye khaas CSS -->
     <link rel="stylesheet" href="invoicing.css"> 
+    <!-- Purani Supabase aur auth-guard scripts yahan se hata di gayi hain -->
 </head>
 <body>
     <div class="navbar">
@@ -37,7 +36,6 @@
                         <label for="companyName">Your Company Name</label>
                         <input type="text" id="companyName" value="Your Dispatching Service">
                     </div>
-                    <!-- YEH FIELD MISSING THI -->
                     <div class="form-group">
                         <label for="companyAddress">Your Company Address</label>
                         <input type="text" id="companyAddress" value="123 Main St, Your City">
@@ -46,7 +44,6 @@
                         <label for="clientName">Broker/Client Name</label>
                         <input type="text" id="clientName" placeholder="e.g., TQL Logistics">
                     </div>
-                    <!-- YEH FIELD BHI MISSING THI -->
                     <div class="form-group">
                         <label for="clientAddress">Broker/Client Address</label>
                         <input type="text" id="clientAddress" placeholder="e.g., 456 Broker Ave, Cincinnati, OH">
@@ -73,13 +70,10 @@
                 <hr>
                 <button id="generateInvoiceBtn">Generate Invoice</button>
             </div>
-
         </div>
     </div>
     
-    <!-- YEH 3 LINES ZAROORI HAIN -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="supabase-client.js"></script>
+    <!-- Sirf is page ki zaroori script yahan hai -->
     <script src="invoicing.js"></script>
     
 </body>
