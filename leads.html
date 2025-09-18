@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FMCSA Leads - Dispatch OS</title>
-    <!-- Hum dashboard wala CSS hi istemal kar rahe hain -->
     <link rel="stylesheet" href="dashboard.css">
+    <!-- Purani Supabase aur auth-guard scripts yahan se hata di gayi hain -->
 </head>
 <body>
     <div class="navbar">
@@ -38,11 +38,10 @@
             </div>
         </div>
     </div>
-        
-    <!-- Is page ki JavaScript file ko yahan link kiya gaya hai -->
+    
+    <!-- Sirf is page ki zaroori scripts yahan hain -->
     <script src="fmcsa-leads.js"></script>
     <script>
-        // Page load hone par foran leads fetch karein
         document.addEventListener('DOMContentLoaded', fetchFmcsaLeads);
     </script>
 </body>
