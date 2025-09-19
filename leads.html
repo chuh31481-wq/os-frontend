@@ -5,14 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FMCSA Leads - Dispatch OS</title>
     <link rel="stylesheet" href="dashboard.css">
-    <!-- Purani Supabase aur auth-guard scripts yahan se hata di gayi hain -->
+    
+    <!-- YAHAN SECURITY GUARD ADD KIYA GAYA HAI -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
+    <script src="auth-guard.js" defer></script>
 </head>
 <body>
     <div class="navbar">
         <div class="logo">Dispatch OS</div>
         <div class="user-menu">
             <span>Welcome, User!</span>
-            <button id="logoutButton">Logout</button>
+            <!-- Logout button ko theek kar diya gaya hai -->
+            <a href="/logout" class="logout-btn">Logout</a>
         </div>
     </div>
 
@@ -39,7 +43,6 @@
         </div>
     </div>
     
-    <!-- Sirf is page ki zaroori scripts yahan hain -->
     <script src="fmcsa-leads.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', fetchFmcsaLeads);
