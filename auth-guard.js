@@ -1,6 +1,7 @@
-// Yeh script foran chalegi, DOMContentLoaded ka intezar nahi karegi.
+// Is function ko 'DOMContentLoaded' ke event par chalana hai
+// Iska matlab hai: "Jab poora HTML page browser mein load ho jaye, tab yeh code chalao."
+document.addEventListener('DOMContentLoaded', function() {
 
-(async function() {
     // Browser se pucho ke kya 'auth_session' naam ki cookie mojood hai?
     const cookie = document.cookie.split(';').find(c => c.trim().startsWith('auth_session='));
 
@@ -11,4 +12,6 @@
         window.location.href = 'index.html';
     }
     // Agar cookie mojood hai, to kuch mat karo, page ko load hone do.
-})();
+    // User mehfooz hai aur andar aa sakta hai.
+    
+});
