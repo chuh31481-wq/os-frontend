@@ -1,67 +1,62 @@
-// Yeh Cloudflare Function GitHub se wapas aane wale user ko handle karega
 export async function onRequest(context) {
     try {
-        // Step 1: GitHub se milne wale temporary 'code' ko URL se nikalna
         const url = new URL(context.request.url);
         const code = url.searchParams.get('code');
+        if (!code) throw new Error("Authorization code not found.");
 
-        if (!code) {
-            throw new Error("Authorization code not found.");
-        }
-
-        // Step 2: Is 'code' ko istemal karke GitHub se 'Access Token' haasil karna
         const GITHUB_CLIENT_ID = context.env.GITHUB_CLIENT_ID;
         const GITHUB_CLIENT_SECRET = context.env.GITHUB_CLIENT_SECRET;
 
         const tokenResponse = await fetch('https://github.com/login/oauth/access_token', {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json',
-            },
-            body: JSON.stringify({
-                client_id: GITHUB_CLIENT_ID,
-                client_secret: GITHUB_CLIENT_SECRET,
-                code: code,
-            }),
+            headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+            body: JSON.stringify({ client_id: GITHUB_CLIENT_ID, client_secret: GITHUB_CLIENT_SECRET, code: code }),
         });
-
         const tokenData = await tokenResponse.json();
-        if (tokenData.error) {
-            throw new Error(tokenData.error_description);
-        }
+        if (tokenData.error) throw new Error(tokenData.error_description);
         const accessToken = tokenData.access_token;
 
-        // Step 3: 'Access Token' ka istemal karke user ki GitHub profile haasil karna
         const userResponse = await fetch('https://api.github.com/user', {
-            headers: {
-                'Authorization': `token ${accessToken}`,
-                'User-Agent': 'Dispatch-OS-App',
-            },
+            headers: { 'Authorization': `token ${accessToken}`, 'User-Agent': 'Dispatch-OS-App' },
         });
-
         const githubUser = await userResponse.json();
-        const githubUsername = githubUser.login; // User ka GitHub username
+        const githubUsername = githubUser.login;
 
-        // Step 4: (Sab se ahem) Check karna ke kya yeh user hamari 'users.json' file mein hai?
-        // Yeh logic hum agle step mein add karenge. Abhi ke liye, hum farz kar lete hain ke user authorized hai.
-        
-        // TODO: Add logic to check if 'githubUsername' exists in dispatch-os-db/users.json
+        // --- YAHAN TABDEELI HAI ---
+        // Nayi, sahi "chabi" (token) ka naam istemal karna
+        const DB_TOKEN = context.env.DATABASE_ACCESS_KEY;
+        const DB_REPO_OWNER = 'chuh31481-wq';
+        const DB_REPO_NAME = 'dispatch-os-db';
+        const USERS_FILE_URL = `https://api.github.com/repos/${DB_REPO_OWNER}/${DB_REPO_NAME}/contents/users.json`;
 
-        // Step 5: User ko kamyabi se dashboard par bhej dena
-        // Hum user ke browser mein ek "cookie" set kar rahe hain taake woh login rahe.
-        const headers = new Headers();
-        headers.set('Location', '/dashboard.html'); // Dashboard par bhejo
-        headers.set('Set-Cookie', `auth_token=${accessToken}; HttpOnly; Secure; Path=/; Max-Age=86400`); // 1 din ke liye cookie
-
-        return new Response(null, {
-            status: 302, // 302 ka matlab hai "Redirect"
-            headers: headers,
+        const usersFileResponse = await fetch(USERS_FILE_URL, {
+            headers: { 'Authorization': `token ${DB_TOKEN}`, 'Accept': 'application/vnd.github.v3.raw', 'User-Agent': 'Dispatch-OS-App' }
         });
+        if (!usersFileResponse.ok) {
+            // Agar token ghalat ho ya repo private na ho, to yeh error aayega
+            throw new Error(`Could not access the user database. Status: ${usersFileResponse.status}`);
+        }
+        
+        const usersDB = await usersFileResponse.json();
+        const authorizedUser = usersDB.users.find(user => user.github_id.toLowerCase() === githubUsername.toLowerCase());
+
+        if (!authorizedUser) {
+            throw new Error("Access Denied. Your GitHub account is not authorized.");
+        }
+
+        const headers = new Headers();
+        headers.set('Location', '/dashboard.html');
+        const userData = {
+            github_id: githubUsername,
+            company_id: authorizedUser.company_id,
+            role: authorizedUser.role
+        };
+        headers.set('Set-Cookie', `auth_session=${btoa(JSON.stringify(userData))}; HttpOnly; Secure; Path=/; Max-Age=86400`);
+
+        return new Response(null, { status: 302, headers: headers });
 
     } catch (error) {
         console.error("Callback Error:", error);
-        // Agar koi bhi masla ho, to user ko error message ke sath login page par wapas bhejo
         return Response.redirect(`/?error=${encodeURIComponent(error.message)}`, 302);
     }
 }
