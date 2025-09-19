@@ -5,14 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard - Dispatch OS</title>
     <link rel="stylesheet" href="dashboard.css">
-    <!-- Purani Supabase aur auth-guard scripts yahan se hata di gayi hain -->
 </head>
 <body>
     <div class="navbar">
         <div class="logo">Dispatch OS</div>
         <div class="user-menu">
             <span>Welcome, User!</span>
-            <button id="logoutButton">Logout</button>
+            <!-- Yahan tabdeeli ki gayi hai: button ko 'a' link se replace kiya gaya hai -->
+            <a href="/logout" class="logout-btn">Logout</a>
         </div>
     </div>
 
@@ -45,7 +45,6 @@
         </div>
     </div>
     
-    <!-- Sirf is page ki zaroori script yahan hai -->
     <script src="dashboard.js"></script>
     
 </body>
