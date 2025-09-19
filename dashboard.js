@@ -1,30 +1,10 @@
 // Yeh function tab chalega jab poora HTML page load ho jayega
 document.addEventListener('DOMContentLoaded', function() {
     
-    // --- NAYA LOGOUT LOGIC ---
-    const logoutButton = document.getElementById('logoutButton');
+    // Purana logout logic yahan se hata diya gaya hai.
 
-    if (logoutButton) {
-        logoutButton.addEventListener('click', async function() {
-            // Supabase ko logout karne ke liye kehna
-            const { error } = await supabase.auth.signOut();
-
-            if (error) {
-                console.error('Error logging out:', error.message);
-                alert(`Logout Failed: ${error.message}`);
-            } else {
-                // Logout kamyab hone par, user ko login page par wapas bhej do
-                alert('You have been logged out.');
-                window.location.href = 'index.html';
-            }
-        });
-    }
-    // --- LOGOUT LOGIC KHATAM ---
-
-
-    // --- PURANA CODE (Pehle se mojood) ---
     // Dashboard par mojood "Fetch FMCSA Leads" button ka logic
-    const fetchLeadsBtn = document.getElementById('fetchFmcsaBtn');
+    const fetchLeadsBtn = document.getElementById('fetchLeadsBtn');
     if (fetchLeadsBtn) {
         fetchLeadsBtn.addEventListener('click', async function() {
             alert('Request sent to fetch FMCSA leads. This may take a few minutes.');
@@ -53,7 +33,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const API_URL = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${FOLDER_PATH}`;
 
         try {
-            const response = await fetch(API_URL);
+            const response = await fetch(API_URL );
             if (response.status === 404) {
                 listElement.innerHTML = "<li>The 'invoices' folder does not exist yet. Generate an invoice first.</li>";
                 return;
