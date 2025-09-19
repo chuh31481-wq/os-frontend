@@ -17,23 +17,27 @@ export async function onRequest(context) {
         const accessToken = tokenData.access_token;
 
         const userResponse = await fetch('https://api.github.com/user', {
-            headers: { 'Authorization': `token ${accessToken}`, 'User-Agent': 'Dispatch-OS-App' },
+            headers: {
+                'Authorization': `token ${accessToken}`,
+                'User-Agent': 'Dispatch-OS-App' // <-- Yahan se extra comma hata diya gaya hai
+            },
         });
         const githubUser = await userResponse.json();
         const githubUsername = githubUser.login;
 
-        // --- YAHAN TABDEELI HAI ---
-        // Nayi, sahi "chabi" (token) ka naam istemal karna
         const DB_TOKEN = context.env.DATABASE_ACCESS_KEY;
         const DB_REPO_OWNER = 'chuh31481-wq';
         const DB_REPO_NAME = 'dispatch-os-db';
         const USERS_FILE_URL = `https://api.github.com/repos/${DB_REPO_OWNER}/${DB_REPO_NAME}/contents/users.json`;
 
         const usersFileResponse = await fetch(USERS_FILE_URL, {
-            headers: { 'Authorization': `token ${DB_TOKEN}`, 'Accept': 'application/vnd.github.v3.raw', 'User-Agent': 'Dispatch-OS-App' }
+            headers: {
+                'Authorization': `token ${DB_TOKEN}`,
+                'Accept': 'application/vnd.github.v3.raw',
+                'User-Agent': 'Dispatch-OS-App'
+            }
         });
         if (!usersFileResponse.ok) {
-            // Agar token ghalat ho ya repo private na ho, to yeh error aayega
             throw new Error(`Could not access the user database. Status: ${usersFileResponse.status}`);
         }
         
