@@ -5,13 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard - Dispatch OS</title>
     <link rel="stylesheet" href="dashboard.css">
+    
+    <!-- YAHAN SECURITY GUARD ADD KIYA GAYA HAI -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
+    <script src="auth-guard.js" defer></script>
 </head>
 <body>
     <div class="navbar">
         <div class="logo">Dispatch OS</div>
         <div class="user-menu">
             <span>Welcome, User!</span>
-            <!-- Yahan tabdeeli ki gayi hai: button ko 'a' link se replace kiya gaya hai -->
             <a href="/logout" class="logout-btn">Logout</a>
         </div>
     </div>
