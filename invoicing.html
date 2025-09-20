@@ -6,20 +6,37 @@
     <title>Invoicing - Dispatch OS</title>
     <link rel="stylesheet" href="dashboard.css"> 
     <link rel="stylesheet" href="invoicing.css"> 
-    <!-- Security Guard ko yahan se hata diya gaya hai -->
+    
+    <!-- YAHAN NAYA, BEHTAR SECURITY GUARD LAGAYA GAYA HAI -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabase-client.js"></script>
+    <script src="auth-guard.js"></script>
 </head>
 <body>
-    <!-- ... (Aapka navbar aur container ka poora code yahan aayega) ... -->
     <div class="navbar">
-        <!-- ... -->
+        <div class="logo">Dispatch OS</div>
+        <div class="user-menu">
+            <span id="welcome-user">Welcome...</span>
+            <a href="#" id="logoutButton" class="logout-btn">Logout</a>
+        </div>
     </div>
+
     <div class="container">
-        <!-- ... -->
+        <div class="sidebar">
+            <ul>
+                <li><a href="dashboard.html">Dashboard</a></li>
+                <li class="active"><a href="invoicing.html">Invoicing</a></li>
+                <li><a href="leads.html">Leads (FMCSA)</a></li>
+                <li><a href="#">Settings</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <h1>Create New Invoice</h1>
+        <!-- Invoice form yahan aayega, hum isay baad mein banayenge -->
     </div>
     
-    <!-- YAHAN ASAL TABDEELI HAI -->
-    <!-- Security Guard ko body ke bilkul aakhir mein rakha gaya hai -->
-    <script src="auth-guard.js"></script>
     <script src="invoicing.js"></script>
 </body>
 </html>
