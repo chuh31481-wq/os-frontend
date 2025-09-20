@@ -6,7 +6,7 @@
     <title>FMCSA Leads - Dispatch OS</title>
     <link rel="stylesheet" href="dashboard.css">
     
-    <!-- YAHAN NAYA, BEHTAR SECURITY GUARD LAGAYA GAYA HAI -->
+    <!-- Security Guard -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="supabase-client.js"></script>
     <script src="auth-guard.js"></script>
@@ -29,13 +29,22 @@
                 <li><a href="#">Settings</a></li>
             </ul>
         </div>
-    </div>
 
-    <div class="main-content">
-        <h1>FMCSA Scrape Results</h1>
-        <!-- Leads ki list yahan aayegi, hum isay baad mein banayenge -->
+        <div class="main-content">
+            <h1>FMCSA Scrape Results</h1>
+            
+            <!-- YEH HISSA MISSING THA -->
+            <div class="card">
+                <h3>Generated Lead Files (CSV)</h3>
+                <p>Click on a file to download the extracted leads. The list will refresh automatically.</p>
+                <ul id="leads-list">
+                    <li>Loading lead files...</li>
+                </ul>
+                <button onclick="fetchFmcsaLeads()">Refresh List Manually</button>
+            </div>
+        </div>
     </div>
     
-    <script src="leads.js"></script>
+    <script src="fmcsa-leads.js"></script>
 </body>
 </html>
