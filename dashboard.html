@@ -5,17 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard - Dispatch OS</title>
     <link rel="stylesheet" href="dashboard.css">
-    <!-- Security Guard ko yahan se hata diya gaya hai -->
 </head>
 <body>
-    <!-- ... (Aapka navbar aur container ka poora code yahan aayega) ... -->
     <div class="navbar">
         <div class="logo">Dispatch OS</div>
         <div class="user-menu">
-            <span>Welcome, User!</span>
+            <span id="welcome-user">Welcome, User!</span>
             <a href="/logout" class="logout-btn">Logout</a>
         </div>
     </div>
+
     <div class="container">
         <div class="sidebar">
             <ul>
@@ -25,15 +24,18 @@
                 <li><a href="#">Settings</a></li>
             </ul>
         </div>
+
         <div class="main-content">
             <h1>Main Dashboard</h1>
             <p>This is where your main content, like alerts and summaries, will go.</p>
+            
             <div class="card">
-                <h3>Recently Generated Invoices</h3>
+                <h3>My Company's Recent Invoices</h3>
                 <ul id="invoice-list">
                     <li>Loading invoices...</li>
                 </ul>
             </div>
+
             <div class="card">
                 <h3>FMCSA Lead Generation</h3>
                 <p>Click the button below to start fetching new leads from the FMCSA database. This process runs in the background.</p>
@@ -42,8 +44,6 @@
         </div>
     </div>
     
-    <!-- YAHAN ASAL TABDEELI HAI -->
-    <!-- Security Guard ko body ke bilkul aakhir mein rakha gaya hai -->
     <script src="auth-guard.js"></script>
     <script src="dashboard.js"></script>
 </body>
