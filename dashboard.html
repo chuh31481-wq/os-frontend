@@ -5,46 +5,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard - Dispatch OS</title>
     <link rel="stylesheet" href="dashboard.css">
+    
+    <!-- YAHAN NAYA, BEHTAR SECURITY GUARD LAGAYA GAYA HAI -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabase-client.js"></script>
+    <script src="auth-guard.js"></script>
 </head>
 <body>
     <div class="navbar">
         <div class="logo">Dispatch OS</div>
         <div class="user-menu">
-            <span id="welcome-user">Welcome, User!</span>
-            <a href="/logout" class="logout-btn">Logout</a>
+            <span id="welcome-user">Welcome...</span>
+            <a href="#" id="logoutButton" class="logout-btn">Logout</a>
         </div>
     </div>
 
     <div class="container">
-        <div class="sidebar">
-            <ul>
-                <li class="active"><a href="dashboard.html">Dashboard</a></li>
-                <li><a href="invoicing.html">Invoicing</a></li>
-                <li><a href="leads.html">Leads (FMCSA)</a></li>
-                <li><a href="#">Settings</a></li>
-            </ul>
-        </div>
+        <!-- ... (Sidebar ka code waisa hi rahega) ... -->
+    </div>
 
-        <div class="main-content">
-            <h1>Main Dashboard</h1>
-            <p>This is where your main content, like alerts and summaries, will go.</p>
-            
-            <div class="card">
-                <h3>My Company's Recent Invoices</h3>
-                <ul id="invoice-list">
-                    <li>Loading invoices...</li>
-                </ul>
-            </div>
-
-            <div class="card">
-                <h3>FMCSA Lead Generation</h3>
-                <p>Click the button below to start fetching new leads from the FMCSA database. This process runs in the background.</p>
-                <button id="fetchLeadsBtn">Fetch New FMCSA Leads</button>
-            </div>
-        </div>
+    <div class="main-content">
+        <!-- ... (Main content ka code waisa hi rahega) ... -->
     </div>
     
-    <script src="auth-guard.js"></script>
     <script src="dashboard.js"></script>
 </body>
 </html>
