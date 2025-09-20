@@ -1,7 +1,21 @@
-// Yeh function tab chalega jab poora HTML page load ho jayega
 document.addEventListener('DOMContentLoaded', function() {
     
-    // Dashboard par mojood "Fetch FMCSA Leads" button ka logic
+    // User ka naam navbar mein dikhana
+    async function displayUserInfo() {
+        const welcomeUser = document.getElementById('welcome-user');
+        try {
+            const response = await fetch('/user');
+            if (!response.ok) return;
+            const userData = await response.json();
+            if (welcomeUser) {
+                welcomeUser.textContent = `Welcome, ${userData.github_id}!`;
+            }
+        } catch (error) {
+            if (welcomeUser) welcomeUser.textContent = 'Welcome!';
+        }
+    }
+
+    // FMCSA Leads button ka logic
     const fetchLeadsBtn = document.getElementById('fetchLeadsBtn');
     if (fetchLeadsBtn) {
         fetchLeadsBtn.addEventListener('click', async function() {
@@ -17,32 +31,29 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Dashboard par "Recently Generated Invoices" ki list laane ka naya, smart logic
+    // User ki company ke invoices laane ka logic
     async function fetchMyCompanyInvoices() {
         const listElement = document.getElementById('invoice-list');
         if (!listElement) return;
-
         listElement.innerHTML = '<li>Loading your invoices...</li>';
 
         try {
-            // Step 1: Pata lagao ke kaunsa user login hai
             const userResponse = await fetch('/user');
             if (!userResponse.ok) throw new Error('Authentication error. Please log in again.');
             const userData = await userResponse.json();
-            const myCompanyId = userData.company_id;
-
-            // --- YAHAN ASAL TABDEELI HAI ---
-            // Step 2: DB repo se company ka 'data_folder' haasil karo (Authorization header ke sath)
-            // Hum yahan direct GitHub API ko call nahi kar rahe, balke ek naye "information desk" function ko call karenge
-            const companyInfoResponse = await fetch(`/get-company-info?company_id=${myCompanyId}`);
-            if (!companyInfoResponse.ok) throw new Error('Could not load your company information.');
-            const myCompany = await companyInfoResponse.json();
+            
+            const dbResponse = await fetch(`https://api.github.com/repos/chuh31481-wq/dispatch-os-db/contents/users.json`, {
+                headers: { 'Accept': 'application/vnd.github.v3.raw' }
+            });
+            if (!dbResponse.ok) throw new Error('Could not load company database.');
+            const usersDB = await dbResponse.json();
+            const myCompany = usersDB.companies.find(c => c.id === userData.company_id);
+            if (!myCompany) throw new Error('Your company is not configured in the database.');
             
             const FOLDER_PATH = `${myCompany.data_folder}/invoices`;
-
-            // Step 3: Sirf apni company ke folder se invoices ki list laao
-            // Iske liye bhi hum ek naya, secure function banayenge
-            const invoicesResponse = await fetch(`/list-files?path=${FOLDER_PATH}`);
+            const API_URL = `https://api.github.com/repos/chuh31481-wq/dispatch-os-db/contents/${FOLDER_PATH}`;
+            
+            const invoicesResponse = await fetch(API_URL);
             if (invoicesResponse.status === 404) {
                 listElement.innerHTML = `<li>No invoices found for ${myCompany.name}.</li>`;
                 return;
@@ -50,14 +61,13 @@ document.addEventListener('DOMContentLoaded', function() {
             if (!invoicesResponse.ok) throw new Error('Failed to fetch your invoices from the database.');
             
             const files = await invoicesResponse.json();
-            
             if (files.length === 0) {
                 listElement.innerHTML = '<li>No invoices found.</li>';
                 return;
             }
 
-            listElement.innerHTML = ''; // List ko saaf karein
-            files.reverse().slice(0, 5).forEach(file => { // Sirf 5 sab se nayi files dikhayein
+            listElement.innerHTML = '';
+            files.reverse().slice(0, 5).forEach(file => {
                 const listItem = document.createElement('li');
                 const link = document.createElement('a');
                 link.href = file.html_url;
@@ -73,6 +83,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // Page load hone par user ki company ki invoices foran fetch karein
+    // Page load hone par dono kaam foran shuru karein
+    displayUserInfo();
     fetchMyCompanyInvoices();
 });
