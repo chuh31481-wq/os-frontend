@@ -9,18 +9,22 @@
 <body>
     <div class="login-container">
         <h2>Welcome to Dispatch OS</h2>
-        <p>Please log in with your GitHub account to continue</p>
-        
-        <!-- Naya Login Button -->
-        <button id="loginButton" class="github-btn">
-            <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" alt="GitHub Logo">
-            <span>Login with GitHub</span>
-        </button>
-
-        <p class="footer-note">By logging in, you agree to our Terms of Service.</p>
+        <p>Please log in to continue</p>
+        <div id="error-message" style="color: red; margin-bottom: 15px;"></div>
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" placeholder="Enter your email">
+        </div>
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" placeholder="Enter your password">
+        </div>
+        <button id="loginButton">Login</button>
+        <p class="signup-link">Don't have an account? <a href="signup.html">Sign Up</a></p>
     </div>
-
-    <!-- Is page ke dimaag (logic) ko yahan link kiya gaya hai -->
+    
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabase-client.js"></script>
     <script src="app.js"></script>
 </body>
 </html>
