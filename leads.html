@@ -5,44 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FMCSA Leads - Dispatch OS</title>
     <link rel="stylesheet" href="dashboard.css">
-    
-    <!-- YAHAN SECURITY GUARD ADD KIYA GAYA HAI -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
-    <script src="auth-guard.js" defer></script>
+    <!-- Security Guard ko yahan se hata diya gaya hai -->
 </head>
 <body>
+    <!-- ... (Aapka navbar aur container ka poora code yahan aayega) ... -->
     <div class="navbar">
-        <div class="logo">Dispatch OS</div>
-        <div class="user-menu">
-            <span>Welcome, User!</span>
-            <!-- Logout button ko theek kar diya gaya hai -->
-            <a href="/logout" class="logout-btn">Logout</a>
-        </div>
+        <!-- ... -->
     </div>
-
     <div class="container">
-        <div class="sidebar">
-            <ul>
-                <li><a href="dashboard.html">Dashboard</a></li>
-                <li><a href="invoicing.html">Invoicing</a></li>
-                <li class="active"><a href="leads.html">Leads (FMCSA)</a></li>
-                <li><a href="#">Settings</a></li>
-            </ul>
-        </div>
-
-        <div class="main-content">
-            <h1>FMCSA Scrape Results</h1>
-            <div class="card">
-                <h3>Generated Lead Files (CSV)</h3>
-                <p>Click on a file to download the extracted leads. The list will refresh automatically.</p>
-                <ul id="leads-list">
-                    <li>Loading lead files...</li>
-                </ul>
-                <button onclick="fetchFmcsaLeads()">Refresh List Manually</button>
-            </div>
-        </div>
+        <!-- ... -->
     </div>
     
+    <!-- YAHAN ASAL TABDEELI HAI -->
+    <!-- Security Guard ko body ke bilkul aakhir mein rakha gaya hai -->
+    <script src="auth-guard.js"></script>
     <script src="fmcsa-leads.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', fetchFmcsaLeads);
