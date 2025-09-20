@@ -5,15 +5,9 @@
 
     if (!cookie) {
         // Agar cookie (login ka "entry pass") mojood nahi hai...
-
-        // --- YAHAN ASAL "JASOOSI" HAI ---
-        // Hum tamam mojooda cookies ko error message mein hi dikha denge
-        const allCookies = document.cookie || "No cookies found";
-        alert(`Access Denied! Please log in.\n\nDEBUG INFO:\nCookies found by guard: [${allCookies}]`);
-        
+        alert("Access Denied! Please log in to continue.");
         // ...to user ko foran login page par wapas bhej do.
         window.location.href = 'index.html';
     }
-    // Agar cookie mil gayi hai, to kuch mat karo, page ko load hone do.
-    
+    // Agar cookie mojood hai, to kuch mat karo, page ko load hone do.
 })();
