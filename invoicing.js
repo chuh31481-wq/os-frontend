@@ -25,55 +25,52 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // "Generate Invoice" button ka naya, smart logic
+    // "Generate Invoice" button ka naya, Supabase wala logic
     if (generateBtn) {
         generateBtn.addEventListener('click', async function() {
             try {
-                // Step 1: Pata lagao ke kaunsa user login hai
+                // Step 1: Pata lagao ke kaunsa user login hai (security ke liye)
                 const { data: { user } } = await supabase.auth.getUser();
-                if (!user) throw new Error("Authentication Error. Please log in again.");
+                if (!user) throw new Error("Authentication Error. You are not logged in. Please log in again.");
 
                 // Step 2: Form se invoice ka data haasil karna
-                const invoiceData = {
-                    company_name: document.getElementById('companyName').value,
-                    company_address: document.getElementById('companyAddress').value,
-                    client_name: document.getElementById('clientName').value,
-                    client_address: document.getElementById('clientAddress').value,
-                    invoice_number: document.getElementById('invoiceNumber').value,
-                    invoice_date: document.getElementById('invoiceDate').value,
-                    items: [{
-                        description: document.getElementById('itemDescription').value,
-                        amount: parseFloat(document.getElementById('itemAmount').value)
-                    }],
-                    total: parseFloat(document.getElementById('itemAmount').value),
-                    notes: "Thank you for your business. Payment is due within 30 days."
-                };
+                const invoiceNumber = document.getElementById('invoiceNumber').value;
+                const clientName = document.getElementById('clientName').value;
+                const itemDescription = document.getElementById('itemDescription').value;
+                const itemAmount = parseFloat(document.getElementById('itemAmount').value);
 
-                if (!invoiceData.client_name || !invoiceData.invoice_number) {
-                    alert("Please fill all required fields.");
+                // Check karna ke zaroori fields khaali na hon
+                if (!invoiceNumber || !clientName || !itemAmount) {
+                    alert("Please fill at least Invoice Number, Client Name, and Amount.");
                     return;
                 }
 
-                alert("Sending data to generate invoice... This might take a moment.");
+                alert("Saving your invoice data to the database...");
 
-                // Step 3: Cloudflare Function ko call karna, lekin is baar user ki info ke sath
-                const response = await fetch('/trigger-invoice-job', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        // Hum ab 2 cheezein bhej rahe hain:
-                        user_id: user.id,      // User ki unique ID
-                        invoice_data: invoiceData // Asal invoice ka data
-                    })
-                });
+                // Step 3: Supabase ki 'invoices' table mein naya record daalna
+                const { data, error } = await supabase
+                    .from('invoices')
+                    .insert([
+                        { 
+                            // user_id yahan likhne ki zaroorat nahi, kyunke humne table mein usay 'default auth.uid()' set kiya hai.
+                            invoice_number: invoiceNumber, 
+                            client_name: clientName,
+                            item_description: itemDescription,
+                            amount: itemAmount
+                        }
+                    ])
+                    .select(); // .select() likhne se Supabase naya banaya hua record wapas deta hai
 
-                const result = await response.json();
-                if (!response.ok) throw new Error(result.message);
+                if (error) throw error; // Agar Supabase se error aaye, to usay pakro
 
-                alert("Success! Your invoice generation has started. It will appear in the main dashboard soon.");
+                console.log("Invoice saved successfully:", data);
+                alert("Success! Your invoice has been saved to the database. You can see it on the dashboard.");
+                
+                // User ko wapas dashboard par bhej dena
+                window.location.href = 'dashboard.html';
 
             } catch (error) {
-                console.error("Error generating invoice:", error);
+                console.error("Error saving invoice:", error.message);
                 alert(`Error: ${error.message}`);
             }
         });
