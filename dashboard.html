@@ -6,7 +6,6 @@
     <title>Dashboard - Dispatch OS</title>
     <link rel="stylesheet" href="dashboard.css">
     
-    <!-- YAHAN NAYA, BEHTAR SECURITY GUARD LAGAYA GAYA HAI -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="supabase-client.js"></script>
     <script src="auth-guard.js"></script>
@@ -21,11 +20,19 @@
     </div>
 
     <div class="container">
-        <!-- ... (Sidebar ka code waisa hi rahega) ... -->
+        <div class="sidebar">
+            <ul>
+                <li class="active"><a href="dashboard.html">Dashboard</a></li>
+                <li><a href="invoicing.html">Invoicing</a></li>
+                <li><a href="leads.html">Leads (FMCSA)</a></li>
+                <li><a href="#">Settings</a></li>
+            </ul>
+        </div>
     </div>
 
     <div class="main-content">
-        <!-- ... (Main content ka code waisa hi rahega) ... -->
+        <h1>Main Dashboard</h1>
+        <p>Welcome to your central hub. All features will be managed from here.</p>
     </div>
     
     <script src="dashboard.js"></script>
