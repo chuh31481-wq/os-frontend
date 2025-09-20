@@ -4,10 +4,16 @@ document.addEventListener('DOMContentLoaded', function() {
     const passwordInput = document.getElementById('password');
     const errorMessage = document.getElementById('error-message');
 
+    const urlParams = new URLSearchParams(window.location.search);
+    const errorParam = urlParams.get('error');
+    if (errorParam) {
+        errorMessage.textContent = errorParam;
+    }
+
     loginButton.addEventListener('click', async function() {
         const email = emailInput.value;
         const password = passwordInput.value;
-        errorMessage.textContent = ''; // Purana error message saaf karein
+        errorMessage.textContent = '';
 
         if (email === "" || password === "") {
             errorMessage.textContent = "Please enter both email and password.";
@@ -20,9 +26,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 password: password,
             });
 
-            if (error) throw error;
-
-            // Login kamyab hone par, dashboard par bhej do
+            if (error) {
+                if (error.message.includes("Email not confirmed")) {
+                    throw new Error("Your email is not verified. Please check your inbox (and spam folder).");
+                }
+                throw error;
+            }
             window.location.href = 'dashboard.html';
 
         } catch (error) {
