@@ -1,9 +1,9 @@
 document.addEventListener('DOMContentLoaded', function() {
+    // ... (Logout aur User Info ka logic bilkul waisa hi rahega) ...
     const generateBtn = document.getElementById('generateInvoiceBtn');
     const welcomeUserSpan = document.getElementById('welcome-user');
     const logoutButton = document.getElementById('logoutButton');
 
-    // Logout Logic (waisa hi rahega)
     if (logoutButton) {
         logoutButton.addEventListener('click', async (e) => {
             e.preventDefault();
@@ -17,7 +17,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // User Info Logic (waisa hi rahega)
     async function displayUserInfo() {
         const { data: { user } } = await supabase.auth.getUser();
         if (user && welcomeUserSpan) {
@@ -25,21 +24,21 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // "Generate Invoice" button ka naya, PDF wala logic
+
+    // "Generate Invoice" button ka naya, behtar logic
     if (generateBtn) {
         generateBtn.addEventListener('click', async function() {
             try {
-                // Step 1: User Authentication (waisa hi rahega)
+                // ... (User Authentication aur Form se data haasil karne ka code bilkul waisa hi rahega) ...
                 const { data: { user } } = await supabase.auth.getUser();
                 if (!user) throw new Error("Authentication Error. Please log in again.");
 
-                // Step 2: Form se data haasil karna (waisa hi rahega)
                 const companyName = document.getElementById('companyName').value;
                 const companyAddress = document.getElementById('companyAddress').value;
                 const clientName = document.getElementById('clientName').value;
                 const clientAddress = document.getElementById('clientAddress').value;
                 const invoiceNumber = document.getElementById('invoiceNumber').value;
-                const invoiceDate = document.getElementById('invoiceDate').value;
+                let invoiceDate = document.getElementById('invoiceDate').value;
                 const itemDescription = document.getElementById('itemDescription').value;
                 const itemAmount = parseFloat(document.getElementById('itemAmount').value);
 
@@ -48,14 +47,19 @@ document.addEventListener('DOMContentLoaded', function() {
                     return;
                 }
 
-                // --- YAHAN ASAL TABDEELI HAI ---
-                // Step 3: PDF Banana (Foran, Browser Mein)
-                
-                // jsPDF library ko initialize karna
+                // --- YAHAN BEHTARI HAI ---
+                // Agar user ne date select nahi ki, to aaj ki date khud le lo
+                if (!invoiceDate) {
+                    invoiceDate = new Date().toISOString().split('T')[0]; // Format: YYYY-MM-DD
+                }
+
+                // Step 3: Behtar PDF Banana
                 const { jsPDF } = window.jspdf;
                 const doc = new jsPDF();
 
-                // PDF ke andar content likhna
+                // Font ko set karna
+                doc.setFont("helvetica", "normal");
+
                 doc.setFontSize(22);
                 doc.text("INVOICE", 105, 20, { align: 'center' });
 
@@ -70,10 +74,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 doc.text(clientName, 20, 65);
                 doc.text(clientAddress, 20, 70);
 
-                doc.line(15, 80, 195, 80); // Horizontal line
+                doc.line(15, 80, 195, 80);
 
+                doc.setFont("helvetica", "bold"); // Headers ko bold karna
                 doc.text("Description", 20, 90);
                 doc.text("Amount", 180, 90, { align: 'right' });
+                doc.setFont("helvetica", "normal");
+
                 doc.line(15, 95, 195, 95);
 
                 doc.text(itemDescription, 20, 105);
@@ -82,26 +89,18 @@ document.addEventListener('DOMContentLoaded', function() {
                 doc.line(15, 120, 195, 120);
 
                 doc.setFontSize(16);
+                doc.setFont("helvetica", "bold");
                 doc.text("Total:", 140, 130);
-                doc.text(`$${itemAmount.toFixed(2)}`, 180, 130, { align: 'right' });
+                doc.text(`$${itemAmount.toFixed(2)}`, 180, 130, { align: 'right' }); // Total ke sath $ ka nishan
+                doc.setFont("helvetica", "normal");
 
                 doc.setFontSize(10);
                 doc.text("Thank you for your business. Payment is due within 30 days.", 105, 150, { align: 'center' });
 
-                // PDF ko download karwana
                 doc.save(`Invoice-${invoiceNumber}.pdf`);
 
-                // Step 4: Supabase mein data save karna (yeh ab bhi hoga)
-                // Hum PDF ka URL save nahi kar rahe, kyunke PDF ab user ke paas hai.
-                const { error } = await supabase
-                    .from('invoices')
-                    .insert([{ 
-                        invoice_number: invoiceNumber, 
-                        client_name: clientName,
-                        item_description: itemDescription,
-                        amount: itemAmount
-                    }]);
-
+                // Step 4: Supabase mein data save karna (waisa hi rahega)
+                const { error } = await supabase.from('invoices').insert([{ invoice_number: invoiceNumber, client_name: clientName, item_description: itemDescription, amount: itemAmount }]);
                 if (error) throw error;
 
                 alert("Success! Your invoice has been downloaded and the record has been saved.");
@@ -113,6 +112,5 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Page load hone par user ki info foran dikhayein
     displayUserInfo();
 });
