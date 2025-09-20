@@ -6,6 +6,7 @@
     <title>Dashboard - Dispatch OS</title>
     <link rel="stylesheet" href="dashboard.css">
     
+    <!-- Security Guard -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="supabase-client.js"></script>
     <script src="auth-guard.js"></script>
@@ -28,11 +29,25 @@
                 <li><a href="#">Settings</a></li>
             </ul>
         </div>
-    </div>
 
-    <div class="main-content">
-        <h1>Main Dashboard</h1>
-        <p>Welcome to your central hub. All features will be managed from here.</p>
+        <div class="main-content">
+            <h1>Main Dashboard</h1>
+            <p>Welcome to your central hub. All features will be managed from here.</p>
+            
+            <!-- YEH HISSA MISSING THA -->
+            <div class="card">
+                <h3>My Company's Recent Invoices</h3>
+                <ul id="invoice-list">
+                    <li>Loading invoices...</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h3>FMCSA Lead Generation</h3>
+                <p>Click the button below to start fetching new leads from the FMCSA database.</p>
+                <button id="fetchLeadsBtn">Fetch New FMCSA Leads</button>
+            </div>
+        </div>
     </div>
     
     <script src="dashboard.js"></script>
