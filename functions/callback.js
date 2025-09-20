@@ -22,7 +22,7 @@ export async function onRequest(context) {
         const githubUser = await userResponse.json();
         const githubUsername = githubUser.login;
 
-        const DB_TOKEN = context.env.GITHUB_MASTER_PAT; // Nayi, master key istemal karna
+        const DB_TOKEN = context.env.GITHUB_MASTER_PAT;
         const DB_REPO_OWNER = 'chuh31481-wq';
         const DB_REPO_NAME = 'dispatch-os-db';
         const USERS_FILE_URL = `https://api.github.com/repos/${DB_REPO_OWNER}/${DB_REPO_NAME}/contents/users.json`;
@@ -43,8 +43,12 @@ export async function onRequest(context) {
 
         const headers = new Headers();
         headers.set('Location', '/dashboard.html');
-        // Hum ab sirf accessToken ko hi cookie mein save kar rahe hain, yeh sab se saada hai
-        headers.set('Set-Cookie', `auth_session=${accessToken}; HttpOnly; Secure; Path=/; Max-Age=86400`);
+        const userData = {
+            github_id: githubUsername,
+            company_id: authorizedUser.company_id,
+            role: authorizedUser.role
+        };
+        headers.set('Set-Cookie', `auth_session=${btoa(JSON.stringify(userData))}; HttpOnly; Secure; Path=/; Max-Age=86400`);
 
         return new Response(null, { status: 302, headers: headers });
 
