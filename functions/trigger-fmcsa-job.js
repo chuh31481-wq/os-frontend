@@ -1,30 +1,68 @@
-export async function onRequest(context) {
-    const GITHUB_TOKEN = context.env.GITHUB_MASTER_PAT; // Nayi, master key istemal karna
-    const REPO_OWNER = "chuh31481-wq";
-    const REPO_NAME = "fmcsa-result-";
-    const GITHUB_API_URL = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/dispatches`;
+// Is function ka kaam GitHub Actions workflow ko trigger karna hai.
 
-    try {
-        await fetch(GITHUB_API_URL, {
-            method: 'POST',
-            headers: {
-                'Authorization': `token ${GITHUB_TOKEN}`,
-                'Accept': 'application/vnd.github.v3+json',
-                'User-Agent': 'Cloudflare-Worker',
-            },
-            body: JSON.stringify({
-                event_type: 'run-dispatcher-from-frontend',
-                client_payload: { batch_size: "100" }
-            })
-        });
+export async function onRequestPost(context) {
+  // Environment se zaroori maloomat haasil karna
+  const GITHUB_REPO = context.env.GITHUB_REPO; // "chuh31481-wq/fmcsa-result-"
+  const GITHUB_PAT = context.env.GITHUB_PAT;   // Aapka Personal Access Token
 
-        return new Response(JSON.stringify({ message: "Successfully triggered FMCSA workflow!" }), {
-            headers: { 'Content-Type': 'application/json' },
-        });
-    } catch (error) {
-        return new Response(JSON.stringify({ message: `Error: ${error.message}` }), {
-            status: 500,
-            headers: { 'Content-Type': 'application/json' },
-        });
+  // Check karna ke tamam "keys" mojood hain
+  if (!GITHUB_REPO || !GITHUB_PAT) {
+    return new Response(
+      JSON.stringify({
+        success: false,
+        message: "Configuration error: GitHub environment variables are not set in Cloudflare.",
+      }),
+      { 
+        status: 500,
+        headers: { 'Content-Type': 'application/json' }
+      }
+    );
+  }
+
+  // GitHub API ka address
+  const url = `https://api.github.com/repos/${GITHUB_REPO}/dispatches`;
+
+  // --- YAHAN ASAL, AAKHRI TABDEELI HAI ---
+  // Humne 'event_type' ko bilkul wahi naam diya hai jo hamare naye dispatcher.yml mein hai.
+  const body = {
+    event_type: 'run-fmcsa-job-from-frontend', 
+  };
+
+  try {
+    // GitHub API ko request bhejna
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/vnd.github.v3+json',
+        'Authorization': `token ${GITHUB_PAT}`,
+        'User-Agent': 'Cloudflare-Worker-Trigger', // Ek pehchan ke liye
+      },
+      body: JSON.stringify(body),
+    });
+
+    // Check karna ke GitHub ne request qubool ki ya nahi
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(`GitHub API Error: ${response.status} ${response.statusText} - ${errorText}`);
     }
+
+    // Kamyabi ka paigham wapas bhejna
+    return new Response(
+      JSON.stringify({ success: true, message: 'Successfully triggered the FMCSA dispatcher workflow.' }),
+      { 
+        status: 200,
+        headers: { 'Content-Type': 'application/json' }
+      }
+    );
+
+  } catch (error) {
+    console.error('Error triggering GitHub workflow:', error);
+    return new Response(
+      JSON.stringify({ success: false, message: error.message }),
+      { 
+        status: 500,
+        headers: { 'Content-Type': 'application/json' }
+      }
+    );
+  }
 }
