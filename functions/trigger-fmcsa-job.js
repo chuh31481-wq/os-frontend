@@ -22,8 +22,7 @@ export async function onRequestPost(context) {
   // GitHub API ka address
   const url = `https://api.github.com/repos/${GITHUB_REPO}/dispatches`;
 
-  // --- YAHAN ASAL, AAKHRI TABDEELI HAI ---
-  // Humne 'event_type' ko bilkul wahi naam diya hai jo hamare naye dispatcher.yml mein hai.
+  // Yeh 'event_type' bilkul dispatcher.yml wale naam se match karna chahiye
   const body = {
     event_type: 'run-fmcsa-job-from-frontend', 
   };
@@ -37,7 +36,7 @@ export async function onRequestPost(context) {
         'Authorization': `token ${GITHUB_PAT}`,
         'User-Agent': 'Cloudflare-Worker-Trigger', // Ek pehchan ke liye
       },
-      body: JSON.stringify(body),
+      body: JSON.stringify(body ),
     });
 
     // Check karna ke GitHub ne request qubool ki ya nahi
